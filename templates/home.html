@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Tasks</h1>
+    <a href="/logout">logout</a>
+    <!-- <form action="user_task" method="post">
+        <label for="user_task_title">Enter title: </label>
+        <input id="user_task_title" type="'text" name="user_task_title">
+        <input type="submit" value="OK">
+    </form> -->
+<form action="/create_task" method="POST">
+    {% csrf_token %}
+    {{ taskform }}
+    <input type="submit" value="submit">
+</form>
+<h1> {{ request.user.username }} </h1>
+    {% for task in tasks %}
+        <p>Title: {{ task.title }}</p>
+        <p>Description: {{ task.description}}</p>
+        <form action="/update_task/{{task.id}}/{{ task.completed|yesno:'false,true' }}">
+            {% csrf_token %}
+            <span>Completed: </span>
+            {% if task.completed %}
+                <input type="checkbox" checked onChange="this.form.submit()">
+            {% else %}
+                <input type="checkbox" onChange="this.form.submit()">
+            {% endif %}
+        </form>
+        <p>{{ task.date_created }}</p>
+        <form action="/delete_task/{{task.id}}">
+            {% csrf_token %}
+            <input type="submit" value="delete">
+        </form>
+    {% endfor %}
+
+    
+</body>
+</html>

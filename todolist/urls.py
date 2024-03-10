@@ -16,7 +16,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from todolistapp import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('home/', views.home),
+    path('create_task', views.create_task),
+    path('delete_task/<int:id>', views.delete_task),
+    path('update_task/<int:id>/<str:checked>', views.update_task),
+    path('register', views.register),
+    path('logout', views.logout_view),
+    path('login', views.login_view)
 ]
